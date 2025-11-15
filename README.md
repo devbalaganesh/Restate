@@ -135,7 +135,7 @@ SETUP INSTRUCTIONS
 
 1. Clone the repo:
 
-git clone https://github.com/your-username/real-estate-app.git
+git clone https://github.com/devbalaganesh/Restate.git
 cd real-estate-app
 
 2. Install dependencies:
