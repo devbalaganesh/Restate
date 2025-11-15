@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import {Account, Avatars, Client, Databases, OAuthProvider} from "react-native-appwrite"
+import {Account, Avatars, Client, Databases, OAuthProvider, Query} from "react-native-appwrite"
 import * as  Linking from 'expo-linking'
 import { openAuthSessionAsync, WebBrowserResultType } from "expo-web-browser";
 import { useId } from "react";
@@ -110,4 +110,69 @@ export async function getCurrentUser() {
 }
 
 
+export async  function getLatestProperties(){
+  try{
+    const result = await databases.listDocuments(
 
+      config.databaseId!,
+      config.propertiesCollectionId!,
+    [
+    Query.orderDesc("$createdAt"),  
+    Query.limit(5)
+  ]
+    )
+    return result.documents;
+  }
+  catch(error){
+    console.error(error)
+  }
+}
+  
+
+export async function getProperties({
+  filter,
+  query,
+  limit,
+}: {
+  filter: string;
+  query: string;
+  limit?: number;
+}) {
+  try {
+    
+    const buildQuery: any[] = [Query.orderDesc("$createdAt")];
+
+    
+    if (filter && filter !== "All") {
+      buildQuery.push(Query.equal("type", filter));
+    }
+
+  
+    if (query && query.trim() !== "") {
+      buildQuery.push(
+        Query.or([
+          Query.search("name", query),
+          Query.search("address", query),
+          Query.search("type", query),
+        ])
+      );
+    }
+
+    
+    if (limit) {
+      buildQuery.push(Query.limit(limit));
+    }
+
+ 
+    const result = await databases.listDocuments(
+      config.databaseId!,
+      config.propertiesCollectionId!,
+      buildQuery
+    );
+
+    return result.documents;
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+    return [];
+  }
+}

@@ -16,23 +16,24 @@ const COLLECTIONS = {
 
 const propertyTypes = [
   "House",
+  "Villa",
   "Townhomes",
   "Condos",
-  "Duplexes",
   "Studios",
-  "Villa",
+  "Duplexes",
   "Apartments",
-  "Others",
+  "others",      
 ];
 
+
 const facilities = [
-  "Laundary",      // FIXED
+  "Laundary",     
   "Wifi",
   "Parking",
   "Playground",
   "Cutlery",
   "Gym",
-  "SwimmingPool",  // FIXED
+  "SwimmingPool",
   "Hospital",
 ];
 
@@ -43,6 +44,7 @@ function getRandomSubset<T>(
 ): T[] {
   const subsetSize =
     Math.floor(Math.random() * (maxItems - minItems + 1)) + minItems;
+
   const arrayCopy = [...array];
 
   // Shuffle using Fisher-Yates
@@ -59,37 +61,39 @@ function getRandomSubset<T>(
 
 async function seed() {
   try {
-   
-
-    // ----------------------------
-    // STEP 1: Delete existing data
-    // ----------------------------
     console.log("Deleting previous data...");
 
-    for (const key in COLLECTIONS) {
-      const collectionId = COLLECTIONS[key as keyof typeof COLLECTIONS];
+    // SAFE DELETE ORDER (fixes missing ID errors)
+    const deleteOrder = [
+      COLLECTIONS.PROPERTY,
+      COLLECTIONS.GALLERY,
+      COLLECTIONS.REVIEWS,
+      COLLECTIONS.AGENT,
+    ];
+
+    for (const collectionId of deleteOrder) {
       if (!collectionId) continue;
 
       const docs = await databases.listDocuments(
         config.databaseId!,
-        collectionId!
+        collectionId
       );
 
       for (const doc of docs.documents) {
         await databases.deleteDocument(
           config.databaseId!,
-          collectionId!,
+          collectionId,
           doc.$id
         );
       }
 
-      console.log(`Deleted ${docs.documents.length} from ${key}`);
+      console.log(`Deleted ${docs.documents.length} from ${collectionId}`);
     }
 
     console.log("Cleared all existing data.");
 
     // ----------------------------
-    // STEP 2: Seed Agents
+    // SEED AGENTS
     // ----------------------------
     const agents = [];
     for (let i = 1; i <= 5; i++) {
@@ -108,7 +112,7 @@ async function seed() {
     console.log(`Seeded ${agents.length} agents.`);
 
     // ----------------------------
-    // STEP 3: Seed Reviews
+    // SEED REVIEWS
     // ----------------------------
     const reviews = [];
     for (let i = 1; i <= 20; i++) {
@@ -128,7 +132,7 @@ async function seed() {
     console.log(`Seeded ${reviews.length} reviews.`);
 
     // ----------------------------
-    // STEP 4: Seed Galleries
+    // SEED GALLERIES
     // ----------------------------
     const galleries = [];
     for (const image of galleryImages) {
@@ -136,23 +140,23 @@ async function seed() {
         config.databaseId!,
         COLLECTIONS.GALLERY!,
         ID.unique(),
-        { image }
+        {
+          image, // Appwrite schema must have image:string
+        }
       );
       galleries.push(gallery);
     }
     console.log(`Seeded ${galleries.length} galleries.`);
 
     // ----------------------------
-    // STEP 5: Seed Properties
+    // SEED PROPERTIES
     // ----------------------------
     for (let i = 1; i <= 20; i++) {
       const assignedAgent = agents[Math.floor(Math.random() * agents.length)];
       const assignedReviews = getRandomSubset(reviews, 5, 7);
       const assignedGalleries = getRandomSubset(galleries, 3, 8);
 
-      const selectedFacilities = facilities
-        .sort(() => 0.5 - Math.random())
-        .slice(0, Math.floor(Math.random() * facilities.length) + 1);
+      const selectedFacilities = getRandomSubset(facilities, 3, 6);
 
       const image =
         propertiesImages.length - 1 >= i
@@ -176,13 +180,13 @@ async function seed() {
           bedrooms: Math.floor(Math.random() * 5) + 1,
           bathrooms: Math.floor(Math.random() * 5) + 1,
           rating: Math.floor(Math.random() * 5) + 1,
+
           facilities: selectedFacilities,
-          image: image,
-          agent: assignedAgent.$id,
+          image: image, // must be string attribute
+          agent: assignedAgent.$id, // must exist in schema
           reviews: assignedReviews.map((review) => review.$id),
           gallery: assignedGalleries.map((gallery) => gallery.$id),
 
-          // ⭐ Required by your database schema
           url: `https://example.com/property-${i}`,
         }
       );
@@ -190,7 +194,7 @@ async function seed() {
       console.log(`Seeded property: ${property.name}`);
     }
 
-    console.log("🎉 Data seeding completed successfully.");
+    console.log("🎉 Data seeding completed successfully!");
   } catch (error) {
     console.error("Error seeding data:", error);
   }
