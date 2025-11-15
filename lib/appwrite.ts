@@ -1,14 +1,22 @@
 import { Platform } from "react-native";
-import {Account, Avatars, Client, OAuthProvider} from "react-native-appwrite"
+import {Account, Avatars, Client, Databases, OAuthProvider} from "react-native-appwrite"
 import * as  Linking from 'expo-linking'
 import { openAuthSessionAsync, WebBrowserResultType } from "expo-web-browser";
 import { useId } from "react";
+import Properties from "@/app/(root)/properties/[id]";
 
 export const config={
     Platform:'com.bala.restate',
     endpoint:process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
     projectId:process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
-    platform:process.env.EXPO_PUBLIC_APPWRITE_PLATFORM
+    platform:process.env.EXPO_PUBLIC_APPWRITE_PLATFORM,
+    databaseId:process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID,
+    galleriesCollectionId:process.env.EXPO_PUBLIC_APPWRITE_GALLERIES_ID,
+    reviewsCollectionId:process.env.EXPO_PUBLIC_APPWRITE_REVIEWS_COLLECTION_ID,
+    agentsCollectionId:process.env.EXPO_PUBLIC_APPWRITE_AGENTS_ID,
+    propertiesCollectionId:process.env.EXPO_PUBLIC_APPWRITE_PROPERTIES_ID
+
+    
 
 }
 
@@ -16,11 +24,12 @@ export const client = new Client();
 client
     .setEndpoint(config.endpoint!)
     .setProject(config.projectId!)
-    .setPlatform(config.Platform!)
+    .setPlatform(config.platform!)
 
 
     export const avatar = new Avatars(client);
     export const account = new Account(client)
+    export const databases = new Databases(client)
 
 
     export async function login() {
