@@ -1,50 +1,271 @@
-# Welcome to your Expo app 👋
+REAL ESTATE MOBILE APP
+A modern real-estate marketplace built with React Native, Expo, and Appwrite.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+---------------------------------------------------------
+OVERVIEW
+---------------------------------------------------------
 
-## Get started
+This mobile app allows users to:
 
-1. Install dependencies
+• Browse properties for rent and sale
+• Apply filters (type, location, price)
+• Search properties by name, address, type
+• View featured and recommended listings
+• View full property details
+• Log in using Google or Email
+• List their own properties for rent or sale
+• Save properties to favorites
 
-   ```bash
-   npm install
-   ```
+---------------------------------------------------------
+FEATURES
+---------------------------------------------------------
 
-2. Start the app
+USER FEATURES
+• Google login
+• Email/Password login
+• View profile with avatar
+• Manage personal property listings
+• Save properties to favorites
 
-   ```bash
-   npx expo start
-   ```
+PROPERTY FEATURES
+• Browse featured properties
+• Browse latest recommendations
+• Search properties
+• Filter by property type:
+  • House
+  • Apartment
+  • Villa
+  • Studio
+  • Townhomes
+  • Condos
+  • Others
+• View property details:
+  • Price
+  • Size
+  • Type
+  • Facilities
+  • Reviews
+  • Image gallery
+  • Agent details
 
-In the output, you'll find options to open the app in a
+ADMIN FEATURES (optional)
+• Approve new listings
+• Remove invalid or spam listings
+• Manage all users and properties
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---------------------------------------------------------
+TECH STACK
+---------------------------------------------------------
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+FRONTEND
+• React Native
+• Expo
+• TypeScript
+• NativeWind (Tailwind for RN)
+• Expo Router
 
-## Get a fresh project
+BACKEND
+• Appwrite Cloud
 
-When you're ready, run:
+STATE MANAGEMENT
+• React Context API
 
-```bash
-npm run reset-project
-```
+DATA FETCHING
+• Custom useAppwrite hook
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---------------------------------------------------------
+PROJECT STRUCTURE
+---------------------------------------------------------
 
-## Learn more
+.
+app/
+app/_layout.tsx
+app/(root)/
+app/auth/
 
-To learn more about developing your project with Expo, look at the following resources:
+components/
+components/cards/
+components/Filters/
+components/Search/
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+constants/
+constants/images.ts
+constants/icons.ts
 
-## Join the community
+lib/
+lib/appwrite.ts
+lib/global-provider.tsx
+lib/useAppwrite.ts
+lib/seed.ts
 
-Join our community of developers creating universal apps.
+types/
+types/property.ts
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+assets/
+
+.env
+.gitignore
+package.json
+README.md
+
+---------------------------------------------------------
+ENVIRONMENT VARIABLES
+---------------------------------------------------------
+
+Create a .env file with:
+
+EXPO_PUBLIC_APPWRITE_ENDPOINT=
+EXPO_PUBLIC_APPWRITE_PROJECT_ID=
+EXPO_PUBLIC_APPWRITE_PLATFORM=
+EXPO_PUBLIC_APPWRITE_DATABASE_ID=
+
+EXPO_PUBLIC_APPWRITE_PROPERTIES_ID=
+EXPO_PUBLIC_APPWRITE_GALLERIES_ID=
+EXPO_PUBLIC_APPWRITE_REVIEWS_ID=
+EXPO_PUBLIC_APPWRITE_AGENTS_ID=
+
+---------------------------------------------------------
+SETUP INSTRUCTIONS
+---------------------------------------------------------
+
+1. Clone the repo:
+
+git clone https://github.com/your-username/real-estate-app.git
+cd real-estate-app
+
+2. Install dependencies:
+
+npm install
+
+3. Start Expo:
+
+npx expo start
+
+Scan the QR code using Expo Go.
+
+---------------------------------------------------------
+APPWRITE SETUP
+---------------------------------------------------------
+
+REQUIRED COLLECTIONS:
+properties
+agents
+reviews
+galleries
+
+PROPERTIES COLLECTION FIELDS:
+name (string)
+price (number)
+address (string)
+image (string)
+rating (number)
+type (enum)
+facilities (array)
+agent (relationship)
+reviews (relationship array)
+gallery (relationship array)
+url (string)
+
+AGENTS COLLECTION FIELDS:
+name
+email
+avatar
+
+REVIEWS COLLECTION FIELDS:
+name
+avatar
+review
+rating
+
+GALLERIES COLLECTION FIELDS:
+image
+
+---------------------------------------------------------
+SEEDING DATA
+---------------------------------------------------------
+
+To seed demo data:
+Add a button in your UI:
+
+<Button title="seed" onPress={seed} />
+
+This clears collections and inserts:
+• 5 agents
+• 20 reviews
+• 10 gallery images
+• 20 sample properties
+
+---------------------------------------------------------
+API FUNCTIONS (lib/appwrite.ts)
+---------------------------------------------------------
+
+getCurrentUser()
+getLatestProperties()
+getProperties()
+login()    // Google OAuth
+logout()
+
+---------------------------------------------------------
+useAppwrite HOOK
+---------------------------------------------------------
+
+Usage:
+
+const { data, loading, refetch } = useAppwrite({
+  fn: getProperties,
+  params: { filter, query, limit: 6 },
+});
+
+---------------------------------------------------------
+SCREENS
+---------------------------------------------------------
+
+HOME SCREEN
+• Featured properties (horizontal list)
+• Recommended properties (horizontal list)
+• Category filters
+• Search bar
+• Property grid list
+
+PROPERTY DETAILS SCREEN
+• Image gallery
+• Full description
+• Property facilities
+• Agent details
+• Reviews
+
+---------------------------------------------------------
+AUTHENTICATION
+---------------------------------------------------------
+
+Uses Appwrite OAuth for Google login:
+
+account.createOAuth2Token(OAuthProvider.Google, redirectUrl)
+
+Session stored locally.
+
+---------------------------------------------------------
+BUILDING FOR PRODUCTION
+---------------------------------------------------------
+
+Android:
+eas build --platform android
+
+iOS:
+eas build --platform ios
+
+---------------------------------------------------------
+CONTRIBUTING
+---------------------------------------------------------
+
+To contribute:
+• Create a branch
+• Commit your changes
+• Open a pull request
+• Wait for review
+
+---------------------------------------------------------
+LICENSE
+---------------------------------------------------------
+
+MIT License © 2025 Bala Ganesh
