@@ -7,14 +7,15 @@ OVERVIEW
 
 This mobile app allows users to:
 
-• Browse properties for rent and sale
-• Apply filters (type, location, price)
-• Search properties by name, address, type
-• View featured and recommended listings
-• View full property details
-• Log in using Google or Email
-• List their own properties for rent or sale
-• Save properties to favorites
+• Browse properties for rent and sale <br>
+• Apply filters (type, location, price) <br>
+• Search properties by name, address, type <br>
+• View featured and recommended listings <br>
+• View full property details <br>
+• Log in using Google or Email <br>
+• List their own properties for rent or sale <br>
+• Save properties to favorites <br>
+
 
 ---------------------------------------------------------
 FEATURES
@@ -28,30 +29,34 @@ USER FEATURES
 • Save properties to favorites
 
 PROPERTY FEATURES
-• Browse featured properties
-• Browse latest recommendations
-• Search properties
-• Filter by property type:
-  • House
-  • Apartment
-  • Villa
-  • Studio
-  • Townhomes
-  • Condos
-  • Others
-• View property details:
-  • Price
-  • Size
-  • Type
-  • Facilities
-  • Reviews
-  • Image gallery
-  • Agent details
+USER FEATURES <br>
+• Google login <br>
+• Email/Password login <br>
+• View profile with avatar <br>
+• Manage personal property listings <br>
+• Save properties to favorites <br>
 
-ADMIN FEATURES (optional)
-• Approve new listings
-• Remove invalid or spam listings
-• Manage all users and properties
+PROPERTY FEATURES <br>
+• Browse featured properties <br>
+• Browse latest recommendations <br>
+• Search properties <br>
+• Filter by property type: <br>
+  - House <br>
+  - Apartment <br>
+  - Villa <br>
+  - Studio <br>
+  - Townhomes <br>
+  - Condos <br>
+  - Others <br>
+• View property details: <br>
+  - Price <br>
+  - Size <br>
+  - Type <br>
+  - Facilities <br>
+  - Reviews <br>
+  - Image gallery <br>
+  - Agent details <br>
+
 
 ---------------------------------------------------------
 TECH STACK
